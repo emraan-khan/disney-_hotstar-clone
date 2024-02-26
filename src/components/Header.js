@@ -1,7 +1,20 @@
 import React from 'react'
 import styled from 'styled-components';
+import { auth,provider } from '../firebase';
+import { signInWithPopup } from 'firebase/auth';
 
 const Header = (props) => {
+
+  const handleAuth=()=>{
+    signInWithPopup(auth,provider)
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((error) => {
+        alert(error.message);
+      })
+  }
+
   return (
     <Nav>
       <Logo>
@@ -33,7 +46,7 @@ const Header = (props) => {
       <span>SERIES</span>
       </a>
       </NavMenu>
-        <Login>LOGIN</Login>
+        <Login onClick={handleAuth}>LOGIN</Login>
     </Nav>
   )
 };
@@ -140,7 +153,7 @@ const Login= styled.a`
     border: 1px solid #f9f9f9;
     border-radius: 4px;
     transition: all 0.2s ease 0s;
-
+    cursor: pointer;
     &:hover{
         background-color: #f9f9f9;
         color: #000;
