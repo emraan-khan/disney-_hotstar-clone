@@ -3,16 +3,36 @@ import styled from 'styled-components';
 import { auth,provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
 
+import { UseDispatch,useDispatch,useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { selectUserName,selectUserPhoto, setUserLoginDetails } from '../features/users/userSlice';
+
 const Header = (props) => {
+
+  const dispatch=useDispatch();
+  const navigate=useNavigate();
+  const userName=useSelector(selectUserName)
+  const userPhoto=useSelector(selectUserPhoto)
 
   const handleAuth=()=>{
     signInWithPopup(auth,provider)
       .then((result) => {
-        console.log(result);
+        // console.log(result);
+        setUser(result.user)
       })
       .catch((error) => {
         alert(error.message);
       })
+  }
+
+  const setUser=(user)=>{
+    dispatch(
+      setUserLoginDetails({
+        name: user.displayName,
+        email: user.email,
+        photo: user.photoURL,
+      })
+    )
   }
 
   return (
