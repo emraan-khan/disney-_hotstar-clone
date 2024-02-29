@@ -9,9 +9,7 @@ function App() {
       <Router>
       <Header />
         <Routes>
-        
           <Route  path='/' element={<Login />} />
-        
         </Routes>
       </Router>
     </div>

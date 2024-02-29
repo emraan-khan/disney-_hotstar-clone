@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components';
 import { auth,provider } from '../firebase';
 import { signInWithPopup } from 'firebase/auth';
@@ -12,20 +12,47 @@ const Header = (props) => {
   const dispatch=useDispatch();
   const navigate=useNavigate();
   const userName=useSelector(selectUserName)
+  // const [userName,setUserName]=useState('Imran');
   const userPhoto=useSelector(selectUserPhoto)
+  
+  if(userName){
+    console.log(userName)
+  }
 
-  const handleAuth=()=>{
-    signInWithPopup(auth,provider)
+  // const handleAuth=()=>{
+  //   signInWithPopup(auth,provider)
+  //     .then((result) => {
+  //       console.log(result);
+  //       setUser(result.user)
+  //     })
+  //     .catch((error) => {
+  //       alert(error.message);
+  //     })
+  // }
+
+  // const setUser=(user)=>{
+  //   console.log(user.displayName);
+  //   dispatch(
+  //     setUserLoginDetails({
+  //       name: user.displayName,
+  //       email: user.email,
+  //       photo: user.photoURL,
+  //     })
+  //   )
+  // }
+
+
+  const handleAuth = () => {
+    signInWithPopup(auth, provider)
       .then((result) => {
-        // console.log(result);
-        setUser(result.user)
+        setUser(result.user);
       })
       .catch((error) => {
         alert(error.message);
-      })
-  }
+      });
+  };
 
-  const setUser=(user)=>{
+  const setUser = (user) => {
     dispatch(
       setUserLoginDetails({
         name: user.displayName,
@@ -35,11 +62,19 @@ const Header = (props) => {
     )
   }
 
+
+  
   return (
     <Nav>
       <Logo>
         <img src="/images/logo.svg" alt="Disney"/>
       </Logo>
+      {
+        !userName ? <Login onClick={handleAuth}>Login</Login>
+        :
+        <>
+         
+       
       <NavMenu>
       <a href='/home'>
         <img src='/images/home-icon.svg' alt='home'/>
@@ -66,8 +101,10 @@ const Header = (props) => {
       <span>SERIES</span>
       </a>
       </NavMenu>
-        <Login onClick={handleAuth}>LOGIN</Login>
-    </Nav>
+      <UserImg src={userPhoto} alt={userName}/>
+      </>
+      }
+      </Nav>
   )
 };
 
@@ -178,6 +215,10 @@ const Login= styled.a`
         background-color: #f9f9f9;
         color: #000;
     }
+`;
+
+const UserImg = styled.img`
+
 `;
 
 export default Header

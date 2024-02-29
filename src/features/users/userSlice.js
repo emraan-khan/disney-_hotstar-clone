@@ -1,4 +1,4 @@
-import { createSlice } from "@reduxjs/toolkit";
+import {  createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     name: "",
@@ -6,14 +6,17 @@ const initialState = {
     photo: "",
 };
 
+
 const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {
         setUserLoginDetails: (state, action) => {
+            console.log("this is user slice",action.payload.photo);
             state.name = action.payload.name;
             state.email = action.payload.email;
             state.photo = action.payload.photo;
+            console.log(initialState,"this is initial state");
         },
 
         setSignOutState: (state) => {
@@ -26,8 +29,8 @@ const userSlice = createSlice({
 
 export const userReducer = userSlice.reducer;
 
-export const selectUserName = (state) => state.name;
-export const selectUserEmail = (state) => state.email;
-export const selectUserPhoto = (state) => state.photo;
+export const selectUserName = (state) => state.user.name;
+export const selectUserEmail = (state) => state.user.email;
+export const selectUserPhoto = (state) => state.user.photo;
 
 export const {setUserLoginDetails,setSignOutState}=userSlice.actions;
