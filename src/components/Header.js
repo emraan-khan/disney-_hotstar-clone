@@ -16,43 +16,22 @@ const Header = (props) => {
   const userPhoto=useSelector(selectUserPhoto)
   
   if(userName){
-    console.log(userName)
+    console.log(userName);
   }
 
-  // const handleAuth=()=>{
-  //   signInWithPopup(auth,provider)
-  //     .then((result) => {
-  //       console.log(result);
-  //       setUser(result.user)
-  //     })
-  //     .catch((error) => {
-  //       alert(error.message);
-  //     })
-  // }
-
-  // const setUser=(user)=>{
-  //   console.log(user.displayName);
-  //   dispatch(
-  //     setUserLoginDetails({
-  //       name: user.displayName,
-  //       email: user.email,
-  //       photo: user.photoURL,
-  //     })
-  //   )
-  // }
-
-
-  const handleAuth = () => {
-    signInWithPopup(auth, provider)
+  const handleAuth=()=>{
+    signInWithPopup(auth,provider)
       .then((result) => {
-        setUser(result.user);
+        console.log(result);
+        setUser(result.user)
       })
       .catch((error) => {
         alert(error.message);
-      });
-  };
+      })
+  }
 
-  const setUser = (user) => {
+  const setUser=(user)=>{
+    console.log(user.displayName);
     dispatch(
       setUserLoginDetails({
         name: user.displayName,
@@ -61,6 +40,27 @@ const Header = (props) => {
       })
     )
   }
+
+
+  // const handleAuth = () => {
+  //   signInWithPopup(auth, provider)
+  //     .then((result) => {
+  //       setUser(result.user);
+  //     })
+  //     .catch((error) => {
+  //       alert(error.message);
+  //     });
+  // };
+
+  // const setUser = (user) => {
+  //   dispatch(
+  //     setUserLoginDetails({
+  //       name: user.displayName,
+  //       email: user.email,
+  //       photo: user.photoURL,
+  //     })
+  //   )
+  // }
 
 
   
