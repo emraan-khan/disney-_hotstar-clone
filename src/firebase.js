@@ -3,7 +3,7 @@ import { getFirestore } from "firebase/firestore";
 import { getAuth,GoogleAuthProvider } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 
-const firebaseConfig = {
+const Config = {
     apiKey: "AIzaSyDwY26i5DhJewozTuieHpSJal4eFi_qlS0",
     authDomain: "disneyplus-clone-e39cd.firebaseapp.com",
     projectId: "disneyplus-clone-e39cd",
@@ -13,7 +13,7 @@ const firebaseConfig = {
   };
   
   // Initialize Firebase
-  const firebaseApp = initializeApp(firebaseConfig);
+  const firebaseApp = initializeApp(Config);
   const db = getFirestore();
   const auth = getAuth(firebaseApp);
   const provider = new GoogleAuthProvider();

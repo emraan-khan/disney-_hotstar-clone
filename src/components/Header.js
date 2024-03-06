@@ -1,7 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState,useEffect } from 'react'
 import styled from 'styled-components';
 import { auth,provider } from '../firebase';
-import { signInWithPopup } from 'firebase/auth';
+import { onAuthStateChanged, signInWithPopup } from 'firebase/auth';
 
 import { UseDispatch,useDispatch,useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -18,6 +18,16 @@ const Header = (props) => {
   if(userName){
     console.log(userName);
   }
+
+  useEffect(()=>{
+    auth.onAuthStateChanged(async(user)=>{
+      if(user){
+        setUser(user);
+        navigate("/home");
+        
+      }
+    })
+  },[userName])
 
   const handleAuth=()=>{
     signInWithPopup(auth,provider)
@@ -42,25 +52,8 @@ const Header = (props) => {
   }
 
 
-  // const handleAuth = () => {
-  //   signInWithPopup(auth, provider)
-  //     .then((result) => {
-  //       setUser(result.user);
-  //     })
-  //     .catch((error) => {
-  //       alert(error.message);
-  //     });
-  // };
 
-  // const setUser = (user) => {
-  //   dispatch(
-  //     setUserLoginDetails({
-  //       name: user.displayName,
-  //       email: user.email,
-  //       photo: user.photoURL,
-  //     })
-  //   )
-  // }
+
 
 
   
@@ -218,7 +211,7 @@ const Login= styled.a`
 `;
 
 const UserImg = styled.img`
-
+height: 100%;
 `;
 
 export default Header
