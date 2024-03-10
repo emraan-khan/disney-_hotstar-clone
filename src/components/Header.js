@@ -32,7 +32,7 @@ const Header = (props) => {
 
   const handleAuth=()=>{
     if(!userName){
-    auth.signInWithPopup(auth,provider)
+    signInWithPopup(auth,provider)
       .then((result) => {
         console.log(result);
         setUser(result.user)
