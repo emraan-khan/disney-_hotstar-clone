@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-// import userReducer from "../features/user/userSlice";
 import { userReducer } from "../features/users/userSlice";
 import movieReducer from "../features/movie/movieSlice";
 

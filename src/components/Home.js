@@ -49,7 +49,8 @@ const Home = (props) => {
         recommend: recommends,
         newDisney: newDisneys,
         original: originals,
-        trending: trending }));
+        trending: trending 
+      }));
 
     }
     getData();
