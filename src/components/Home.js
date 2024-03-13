@@ -17,44 +17,49 @@ const Home = (props) => {
 
   const dispatch = useDispatch();
   const userName = useSelector(selectUserName);
-  let recommends = [];
-  let newDisneys = [];
-  let originals = [];
-  let trending = [];
+  // let recommends = [];
+  // let newDisneys = [];
+  // let originals = [];
+  // let trending = [];
 
   useEffect(() => {
-   async function getData(){
-      
-    const movieRef = collection(db,"movies");
-    const movieSnapshot = await getDocs(movieRef);
-    // console.log(movieSnapshot);
-    movieSnapshot.docs.map((doc)=>{
-      switch (doc.data().type) {
-              case 'recommend':
-                recommends = [...recommends, {id: doc.id, ...doc.data()}];
-                break;
-              case 'new':
-                newDisneys = [...newDisneys, {id: doc.id, ...doc.data()}];
-                break;
-              case 'original':
-                originals = [...originals, {id: doc.id, ...doc.data()}];
-                break;
-              case 'trending':
-                trending = [...trending, {id: doc.id, ...doc.data()}];
-                break;
-            }
-    });
+    async function getData() {
+      const movieRef = collection(db, "movies");
+      const movieSnapshot = await getDocs(movieRef);
 
-    dispatch(setMovies({
+      let recommends = [];
+      let newDisneys = [];
+      let originals = [];
+      let trending = [];
+
+      movieSnapshot.docs.forEach(doc => {
+        switch (doc.data().type) {
+          case 'recommend':
+            recommends.push({ id: doc.id, ...doc.data() });
+            break;
+          case 'new':
+            newDisneys.push({ id: doc.id, ...doc.data() });
+            break;
+          case 'original':
+            originals.push({ id: doc.id, ...doc.data() });
+            break;
+          case 'trending':
+            trending.push({ id: doc.id, ...doc.data() });
+            break;
+        }
+      });
+
+      dispatch(setMovies({
         recommend: recommends,
         newDisney: newDisneys,
         original: originals,
-        trending: trending 
+        trending: trending
       }));
-
     }
+
     getData();
-  }, [userName]);
+}, [userName, dispatch]);
+
 
   return (
     <Container>
