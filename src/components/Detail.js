@@ -93,7 +93,7 @@ z-index: -1;
     
 
     @media(max-width: 768px){
-        width: initial;
+        width: 100vw;
     }
 
 }
