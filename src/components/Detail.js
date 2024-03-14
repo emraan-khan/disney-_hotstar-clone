@@ -1,22 +1,70 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
+import { useParams } from 'react-router-dom';
+import db from "../firebase";
+import {  getDoc,doc } from 'firebase/firestore';
 
 const Detail =()=>{
+
+    const {id} = useParams();
+    const [detailData , setDetailData] = useState({});
+
+    useEffect(()=>{
+        // async function getMovieData(){
+        // const movieRef = collection(db,'movies');
+        // const movieSnapshot = await getDocs(movieRef,id);
+        // }
+        // getMovieData();
+       const docRef= doc(db,'movies',id);
+       getDoc(docRef)
+       .then((docSnapshot)=>{
+        if(docSnapshot.exists){
+            setDetailData(docSnapshot.data())
+        }else{
+            console.log('No such document in Firebase!!!');
+        }
+       })
+       .catch((err)=>{
+        console.log('Errror in getting doc : ', err)
+       })
+    },[id])
 
     return(
         <Container>
             <Background>
-                <img  src='https://prod-ripcut-delivery.disney-plus.net/v1/variant/disney/09DAD6A5DAECB6BA9E329FFA896B18978FE4AD5540C070D7973EE53357DD4D24/scale?width=1440&aspectRatio=1.78&format=jpeg'/>
+                <img  src={detailData.backgroundImg} alt={detailData.title}/>
             </Background>
 
             <ImageTitle >
 
-                <img />
+                <img src={detailData.titleImg} alt={detailData.title}/>
             </ImageTitle>
             <ContentMeta>
                 <Controls>
-                    controls
+                    <Player>
+                        <img src='/images/play-icon-black.png' alt='' />
+                        <span>PLAY</span>
+                    </Player>
+                    <Trailer>
+                        <img src='/images/play-icon-white.png' alt='' />
+                        <span>TRAILER</span>
+                    </Trailer>
+                    <AddList>
+                        <span />
+                        <span />
+                    </AddList>
+                    <GroupWatch>
+                        <div>
+                            <img src='/images/group-icon.png' alt='' />
+                        </div>
+                    </GroupWatch>
                 </Controls>
+                <SubTitle>
+                    {detailData.subTitle}
+                </SubTitle>
+                <Description>
+                    {detailData.description}
+                </Description>
             </ContentMeta>
         </Container>
     )
@@ -70,11 +118,130 @@ const ImageTitle = styled.div`
 `;
 
 const ContentMeta = styled.div`
-
+    max-width: 874px;
 `;
 
 const Controls = styled.div`
+    align-items: center;
+    display: flex;
+    flex-flow: row nowrap;
+    margin: 24px 0px;
+    min-height: 56px;
+`;
 
+const Player = styled.button`
+    font-size: 15px;
+    margin: 0px 22px 0px 0px;
+    padding: 0px 24px;
+    height: 56px;
+    border-radius: 4px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    letter-spacing: 1.8px;
+    text-align: center;
+    background: rgb(249, 249, 249);
+    color: rgb(0,0,0);
+    border: none;
+
+    img{
+        width: 32px;
+    }
+
+    &:hover{
+        background: rgb(198, 198, 198);
+    }
+
+    @media (max-width: 768px){
+        height: 45px;
+        padding: 0px 12px;
+        font-size: 12px;
+        margin: 0px 10px 0px 0px;
+
+        img{
+            width: 25px;
+        }
+    }
+`;
+
+const Trailer = styled(Player)`
+    background: rgba(0, 0, 0, 0.3);
+    border : 1px solid rgb(249, 249, 249);
+    color: rgb(249, 249, 249);
+`;
+
+const AddList = styled.div`
+    margin-right: 16px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0,0,0,0.6);
+    border-radius: 50%;
+    border: 2px solid white;
+    cursor: pointer;
+
+    span{
+        background-color: rgb(249, 249, 249);
+        display: inline-block;
+
+        &:first-child{
+            height: 2px;
+            transform: translate(1px,0px) rotate(0deg);
+            width: 16px;
+        }
+
+        &:nth-child(2){
+            height: 16px;
+            transform: translateX(-8px) rotate(0deg);
+            width: 2px;
+        }
+    }
+`;
+
+const GroupWatch = styled.div`
+    height: 44px;
+    width: 44px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    background: white;
+
+    div{
+        height: 40px;
+        width: 40px;
+        background: rgb(0, 0, 0);
+        border-radius: 50%;
+
+        img{
+            width: 100%;
+        }
+    }
+`;
+
+const SubTitle = styled.div`
+    color: rgb(249, 249, 249);
+    font-size: 15px;
+    min-height: 20px;
+
+    @media (max-width: 768px){
+        font-size: 12px;
+    }
+`;
+
+const Description = styled.div`
+    line-height: 1.4;
+    font-size: 20px;
+    padding: 16px 0px;
+    color: rgb(249, 249, 249);
+
+    @media(max-width: 768px){
+        fonr-size: 14px;
+    }
 `;
 
 export default Detail;

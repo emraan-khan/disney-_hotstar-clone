@@ -12,14 +12,7 @@ const Header = (props) => {
   const dispatch=useDispatch();
   const navigate=useNavigate();
   const userName=useSelector(selectUserName)
-  // const [userName,setUserName]=useState('Imran');
   const userPhoto=useSelector(selectUserPhoto);
-  console.log(userPhoto);
-
-  
-  if(userName){
-    console.log(userName);
-  }
 
   useEffect(()=>{
     auth.onAuthStateChanged(async(user)=>{
@@ -34,7 +27,6 @@ const Header = (props) => {
     if(!userName){
     signInWithPopup(auth,provider)
       .then((result) => {
-        console.log(result);
         setUser(result.user)
       })
       .catch((error) => {
@@ -49,7 +41,6 @@ const Header = (props) => {
   }
 
   const setUser=(user)=>{
-    console.log(user.displayName);
     dispatch(
       setUserLoginDetails({
         name: user.displayName,
